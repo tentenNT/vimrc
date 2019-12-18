@@ -151,14 +151,14 @@ set formatoptions+=mM
 "---------------------------------------------------------------------------
 " GUI固有ではない画面表示の設定:
 "
-" 行番号を非表示 (number:表示)
+" 行番号を表示 (nonumber:非表示)
 set number
 " ルーラーを表示 (noruler:非表示)
 set ruler
-" タブや改行を非表示 (list:表示)
-set nolist
+" タブや改行を表示 (nolist:非表示)
+set list
 " どの文字でタブや改行を表示するかを設定
-"set listchars=tab:>-,extends:<,trail:-,eol:<
+set listchars=tab:>-,extends:>,trail:~,eol:<
 " 長い行を折り返して表示 (nowrap:折り返さない)
 set wrap
 " 常にステータス行を表示 (詳細は:he laststatus)
@@ -245,51 +245,6 @@ if kaoriya#switch#enabled('disable-go-extra')
 endif
 
 " ここから自分で定義
-" クリップボードの内容でヤンク，ペースト
-set clipboard=unnamedplus
-" 現在の行を強調表示
-set cursorline
-" 現在の行を強調表示（縦）
-set cursorcolumn
-" 折り返し時に表示行単位での移動できるようにする
-nnoremap j gj
-nnoremap k gk
-" シンタックスハイライトの有効化
-syntax enable
-" 検索文字列入力時に順次対象文字列にヒットさせる
-set incsearch
-" 検索語をハイライト表示
-set hlsearch
-" tab文字等の表示
-" 後で足す
-" 1文字削除時にクリップボードに保存しないようにする
-vnoremap x "_x
-nnoremap x "_x
-" 編集中のファイルが編集されたら読み込む
-set autoread
-" 全角スペース・行末のスペース・タブの可視化
-set list
-set listchars=tab:>-,trail:_,eol:$
-if has("syntax")
-    syntax on
- 
-    " PODバグ対策
-    syn sync fromstart 
-    function! ActivateInvisibleIndicator()
-        " 下の行の"　"は全角スペース
-        syntax match InvisibleJISX0208Space "　" display containedin=ALL
-        highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
-        "syntax match InvisibleTrailedSpace "[ \t]\+$" display containedin=ALL
-        "highlight InvisibleTrailedSpace term=underline ctermbg=Red guibg=NONE gui=undercurl guisp=darkorange
-        "syntax match InvisibleTab "\t" display containedin=ALL
-        "highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
-    endfunction
- 
-    augroup invisible
-        autocmd! invisible
-        autocmd BufNew,BufRead * call ActivateInvisibleIndicator()
-    augroup END
-endif
 " タブ機能の拡張
 nnoremap s <Nop>
 nnoremap sj <C-w>j
@@ -317,4 +272,54 @@ nnoremap sq :<C-u>q<CR>
 nnoremap sQ :<C-u>bd<CR>
 nnoremap sb :<C-u>Unite buffer_tab -buffer-name=file<CR>
 nnoremap sB :<C-u>Unite buffer -buffer-name=file<CR>
+" スワップファイルを作らない
+set noswapfile
+" クリップボードの内容でヤンク，ペースト
+set clipboard=unnamedplus
+" 現在の行を強調表示
+set cursorline
+" 現在の行を強調表示（縦）
+set cursorcolumn
+" 折り返し時に表示行単位での移動できるようにする
+nnoremap j gj
+nnoremap k gk
+" Shift+hjklで移動量を大きく
+noremap H 3h
+noremap J 3j
+noremap K 3k
+noremap L 3l
+" シンタックスハイライトの有効化
+syntax enable
+" 検索文字列入力時に順次対象文字列にヒットさせる
+set incsearch
+" 検索語をハイライト表示
+set hlsearch
+" tab文字等の表示
+" 後で足す
+" 1文字削除時にクリップボードに保存しないようにする
+vnoremap x "_x
+nnoremap x "_x
+" 編集中のファイルが編集されたら読み込む
+set autoread
+" 全角スペースタブの可視化
+if has("syntax")
+    syntax on
+ 
+    " PODバグ対策
+    syn sync fromstart 
+    function! ActivateInvisibleIndicator()
+        " 下の行の"　"は全角スペース
+        syntax match InvisibleJISX0208Space "　" display containedin=ALL
+        highlight InvisibleJISX0208Space term=underline ctermbg=Blue guibg=darkgray gui=underline
+        "syntax match InvisibleTrailedSpace "[ \t]\+$" display containedin=ALL
+        "highlight InvisibleTrailedSpace term=underline ctermbg=Red guibg=NONE gui=undercurl guisp=darkorange
+        "syntax match InvisibleTab "\t" display containedin=ALL
+        "highlight InvisibleTab term=underline ctermbg=white gui=undercurl guisp=darkslategray
+    endfunction
+
+    augroup invisible
+        autocmd! invisible
+        autocmd BufNew,BufRead * call ActivateInvisibleIndicator()
+    augroup END
+endif
 " Copyright (C) 2009-2018 KaoriYa/MURAOKA Taro
