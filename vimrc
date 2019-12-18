@@ -4,7 +4,7 @@ scriptencoding utf-8
 " An example for a Japanese version vimrc file.
 " 日本語版のデフォルト設定ファイル(vimrc) - Vim 8.1
 "
-" Last Change: 17-Dec-2019.
+" Last Change: 18-Dec-2019.
 " Maintainer:  MURAOKA Taro <koron.kaoriya@gmail.com>
 "
 " 解説:
@@ -268,6 +268,8 @@ nnoremap x "_x
 " 編集中のファイルが編集されたら読み込む
 set autoread
 " 全角スペース・行末のスペース・タブの可視化
+set list
+set listchars=tab:>-,trail:_,eol:$
 if has("syntax")
     syntax on
  
